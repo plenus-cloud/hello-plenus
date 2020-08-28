@@ -1,7 +1,7 @@
 body {
   margin:0;
   padding:0;
-  background-color:#333333;
+  background-color:#ffffff;
 }
 
 div.main { 
@@ -13,7 +13,7 @@ div.main img {
 }
 
 div.content {   
-  color:#f2f2f2; 
+  color:#000000; 
 }
 .content #message {
   margin: 10px 0 50px 0;
@@ -21,7 +21,8 @@ div.content {
   font-family: 'Ubuntu', sans-serif;
   font-weight: 300;
   font-size: 32pt;
-  background-color: #505050;
+  color: #ffffff;
+  background-color: #00afa2;
   border-top: 2px solid #909090;
   border-bottom: 2px solid #909090;
 }

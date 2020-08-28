@@ -1,8 +1,8 @@
 {
-  "name": "hello-kubernetes",
-  "version": "1.8.0",
-  "description": "Hello Kubernetes!",
-  "author": "Paul Bouwer",
+  "name": "hello-plenus",
+  "version": "1.0.0",
+  "description": "Hello Plenus!",
+  "author": "Paul Bouwer - modified by Cognitio s.r.l.",
   "license": "MIT",
   "main": "server.js",
   "scripts": {

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-plenus
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-plenus
+  template:
+    metadata:
+      labels:
+        app: hello-plenus
+    spec:
+      containers:
+      - name: hello-plenus
+        image: plenus/hello-plenus:1.0
+        ports:
+        - containerPort: 8080
