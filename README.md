@@ -30,6 +30,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: hello-plenus
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   backend:
     serviceName: hello-plenus
