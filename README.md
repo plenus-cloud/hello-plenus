@@ -119,6 +119,50 @@ Or by using script:
 ./deploy-https.sh
 ```
 
+After deployment you can check certificate status with command :
+
+```sh
+kubectl get certificate hello-plenus-tls -oyaml
+```
+
+When the certificate is ready the status will be similar to:
+
+```
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  creationTimestamp: "2020-08-28T12:33:04Z"
+  generation: 2
+  name: hello-plenus-tls
+  namespace: my-first-app-03eb
+  ownerReferences:
+  - apiVersion: extensions/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Ingress
+    name: hello-plenus
+    uid: db2dd3e6-6756-40f3-b164-0c7fc3f0660e
+  resourceVersion: "63116415"
+  selfLink: /apis/cert-manager.io/v1alpha2/namespaces/my-first-app-03eb/certificates/hello-plenus-tls
+  uid: 730b6a58-749e-440d-8253-467480ba1919
+spec:
+  dnsNames:
+  - my.wonderfulcloudapp.com
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: hello-plenus-tls
+status:
+  conditions:
+  - lastTransitionTime: "2020-08-28T12:34:39Z"
+    message: Certificate is up to date and has not expired
+    reason: Ready
+    status: "True"
+    type: Ready
+  notAfter: "2020-11-26T11:34:38Z"
+```
+
 ## Cleaning Up
 
 You can delete deployed objects with command (http version):
