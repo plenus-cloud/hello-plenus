@@ -4,6 +4,7 @@ This project is a fork of https://github.com/paulbouwer/hello-kubernetes adapted
 https://plenus.cloud
 
 This container image is intended to be deployed into Plenus Cloud in a new namespace as an example application.
+
 When accessed via a web browser via the chosen hostname, it will display:
 - a default **Hello from Plenus!** message
 - the pod name
@@ -21,7 +22,7 @@ It is available on DockerHub as:
 
 ## Deploy
 
-### Standard Configuration
+### Standard Configuration (http)
 
 Customize the ingress hostname in yaml-http/hello-ingress.yaml
 
@@ -52,8 +53,7 @@ You will need to create a CNAME record for this name pointing to the name given 
 Deploy to your Kubernetes cluster using the yaml files in yaml-common/ and yaml-http/ directories
 Objects will be deployed to your current namespace defined in your context
 
-
-```bash
+```sh
 kubectl apply -f yaml-common/
 kubectl apply -f yaml-http/
 ```
@@ -61,18 +61,73 @@ kubectl apply -f yaml-http/
 Or by using script:
 
 ```sh
-./deploy.sh
+./deploy-http.sh
 ```
 
 This will display a **Hello from Plenus!** message when you hit the ingress endpoint in a browser. 
 
-## Cleaning Up
+### Ingress with Let's Encrypt certificate (https)
 
-You can delete deployed objects with command:
+The https example will create an ingress that request a certificate from let's encrypt using cert-manager preinstalled in the cluster.
+There is a default cluster-issuer that will authorize the certificate using HTTP01 challenge.
+
+Customize the ingress hostname in yaml-https/hello-ingress.yaml
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-plenus
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+spec:
+  backend:
+    serviceName: hello-plenus
+    servicePort: 80
+  rules:
+  - host: my.wonderfulcloudapp.com
+    http:
+      paths:
+      - backend:
+          serviceName: hello-plenus
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - my.wonderfulcloudapp.com
+    secretName: hello-plenus-tls
+```
+
+for the https version you will need to change the hostname twice: in the rules and tls sections.
+
+Change my.wonderfulcloudapp.com to the hostname you want to use to access the application.
+You will need to create a CNAME record for this name pointing to the name given by the Plenus Cloud for your namespace/cluster.
+Important: if you deploy the application before the dns record has been propagated let's encrypt authorization could fail, if this happens certificate generation could take a longer time (up to 1 hour + dns propagation time).
+
+Deploy to your Kubernetes cluster using the yaml files in yaml-common/ and yaml-https/ directories
+Objects will be deployed to your current namespace defined in your context
 
 ```sh
-./delete.sh
+kubectl apply -f yaml-common/
+kubectl apply -f yaml-https/
 ```
+
+Or by using script:
+
+```sh
+./deploy-https.sh
+```
+
+## Cleaning Up
+
+You can delete deployed objects with command (http version):
+
+```sh
+./delete-http.sh
+```
+
+Use delete-https.sh to clean up https example.
 
 ## Build Container Image
 
