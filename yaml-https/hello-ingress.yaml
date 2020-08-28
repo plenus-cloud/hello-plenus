@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-plenus
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+spec:
+  backend:
+    serviceName: hello-plenus
+    servicePort: 80
+  rules:
+  - host: my.wonderfulcloudapp.com
+    http:
+      paths:
+      - backend:
+          serviceName: hello-plenus
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - my.wonderfulcloudapp.com
+    secretName: hello-plenus-tls

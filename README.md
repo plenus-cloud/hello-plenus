@@ -23,7 +23,7 @@ It is available on DockerHub as:
 
 ### Standard Configuration
 
-Customize the ingress hostname in yaml/hello-ingress.yaml
+Customize the ingress hostname in yaml-http/hello-ingress.yaml
 
 ```yaml
 apiVersion: extensions/v1beta1
@@ -49,14 +49,30 @@ spec:
 Change my.wonderfulcloudapp.com to the hostname you want to use to access the application.
 You will need to create a CNAME record for this name pointing to the name given by the Plenus Cloud for your namespace/cluster.
 
-Deploy to your Kubernetes cluster using the yaml files in yaml/
+Deploy to your Kubernetes cluster using the yaml files in yaml-common/ and yaml-http/ directories
+Objects will be deployed to your current namespace defined in your context
+
 
 ```bash
-$ kubectl apply -f yaml/
+kubectl apply -f yaml-common/
+kubectl apply -f yaml-http/
+```
+
+Or by using script:
+
+```sh
+./deploy.sh
 ```
 
 This will display a **Hello from Plenus!** message when you hit the ingress endpoint in a browser. 
 
+## Cleaning Up
+
+You can delete deployed objects with command:
+
+```sh
+./delete.sh
+```
 
 ## Build Container Image
 
